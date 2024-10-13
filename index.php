@@ -6,6 +6,6 @@
     <title>Testing php Deployment</title>
 </head>
 <body>
-    <h1>333 Project Website!</h1>
+    <h1>333 Project Website</h1>
 </body>
 </html>
