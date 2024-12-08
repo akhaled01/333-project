@@ -243,6 +243,10 @@ ALTER TABLE `Bookings`
 ALTER TABLE `Comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`);
+--
+--  Admin response
+--
+ALTER TABLE Comments ADD COLUMN admin_response TEXT DEFAULT NULL;
 
 --
 -- Constraints for table `RoomUsageStats`
