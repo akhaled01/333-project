@@ -1,7 +1,9 @@
 <?php 
 
+include "../../../db_connection.php";
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $db = new PDO("mysql:host=127.0.0.1;dbname=csDB", "cs-user", "xqyCsCu");
+    $db = db_connect();
 
     $query = "SELECT * FROM Rooms";
     $stmt = $db->query($query);
@@ -9,3 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     echo json_encode($rooms);
 }
+
+
