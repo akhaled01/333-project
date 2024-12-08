@@ -46,8 +46,8 @@ CREATE TABLE `Bookings` (
   `booking_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,    
+  `start_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `admin_id` int(11) DEFAULT NULL,
   `status` enum('pending','confirmed','cancelled') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -70,19 +70,6 @@ CREATE TABLE `Comments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
--- Table structure for table `Notifications`
---
-
-CREATE TABLE `Notifications` (
-  `notification_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id` INT(11) NOT NULL,
-  `message` TEXT NOT NULL,
-  `is_read` TINYINT(1) NOT NULL DEFAULT 0,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY (`notification_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Table structure for table `Rooms`
@@ -243,10 +230,6 @@ ALTER TABLE `Bookings`
 ALTER TABLE `Comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`);
---
---  Admin response
---
-ALTER TABLE Comments ADD COLUMN admin_response TEXT DEFAULT NULL;
 
 --
 -- Constraints for table `RoomUsageStats`
@@ -254,3 +237,4 @@ ALTER TABLE Comments ADD COLUMN admin_response TEXT DEFAULT NULL;
 ALTER TABLE `RoomUsageStats`
   ADD CONSTRAINT `roomusagestats_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`);
 COMMIT;
+
