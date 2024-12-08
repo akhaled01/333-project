@@ -3,90 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Manage Comments</title>
+    <title>Admin - View Comments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        .response-textarea {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-4">
-        <h2>Manage Comments</h2>
-        <div id="comments-container" class="mt-3">
-            <!-- Comments will be loaded dynamically here -->
-        </div>
-    </div>
-
     <script>
-        // Fetch comments for admin
-        function fetchComments() {
-            fetch('/api/get_comments_admin.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const commentsContainer = document.getElementById('comments-container');
-                        commentsContainer.innerHTML = '';
+        async function fetchComments() {
+            try {
+                const response = await fetch('../api/get_comments_admin.php');
+                const data = await response.json();
 
-                        data.comments.forEach(comment => {
-                            const commentDiv = document.createElement('div');
-                            commentDiv.className = 'card mb-3';
-                            commentDiv.innerHTML = `
-                                <div class="card-body">
-                                    <h5 class="card-title">${comment.room_name} - Comment by ${comment.username}</h5>
-                                    <p class="card-text">${comment.comment_text}</p>
-                                    <p class="card-text text-muted"><small>Submitted on: ${comment.created_at}</small></p>
-                                    ${comment.admin_response ? `<p class="card-text"><strong>Admin Response:</strong> ${comment.admin_response}</p>` : ''}
-                                    <div class="response-textarea">
-                                        <textarea class="form-control" rows="2" placeholder="Write a response..." data-id="${comment.id}">${comment.admin_response || ''}</textarea>
-                                        <button class="btn btn-primary" onclick="submitResponse(${comment.id})">Respond</button>
-                                    </div>
+                if (data.success) {
+                    const commentContainer = document.getElementById('comments');
+                    commentContainer.innerHTML = '';
+
+                    data.comments.forEach(comment => {
+                        const commentCard = document.createElement('div');
+                        commentCard.classList.add('card', 'mb-3');
+
+                        commentCard.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${comment.room_name}</h5>
+                                <p class="card-text"><strong>User:</strong> ${comment.username}</p>
+                                <p class="card-text">${comment.comment_text}</p>
+                                <p class="card-text text-muted"><small>${comment.created_at}</small></p>
+                                <p class="card-text"><strong>Admin Response:</strong> ${comment.admin_response ? comment.admin_response : 'No response yet'}</p>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Write a response..." id="response-${comment.id}">
+                                    <button class="btn btn-primary" onclick="submitResponse(${comment.id})">Submit</button>
                                 </div>
-                            `;
-                            commentsContainer.appendChild(commentDiv);
-                        });
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                            </div>
+                        `;
+
+                        commentContainer.appendChild(commentCard);
+                    });
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
         }
 
-        // Submit admin response
-        function submitResponse(commentId) {
-            const textarea = document.querySelector(`textarea[data-id="${commentId}"]`);
-            const responseText = textarea.value.trim();
+        async function submitResponse(commentId) {
+            const responseInput = document.getElementById(`response-${commentId}`);
+            const responseText = responseInput.value.trim();
 
-            if (responseText === '') {
-                alert('Response cannot be empty!');
+            if (!responseText) {
+                alert('Please write a response before submitting.');
                 return;
             }
 
-            fetch('/api/respond_to_comment.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    comment_id: commentId,
-                    response_text: responseText,
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Response submitted successfully!');
-                        fetchComments(); // Reload comments
-                    } else {
-                        alert('Failed to submit response: ' + data.message);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            try {
+                const response = await fetch('../api/respond_to_comment.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ comment_id: commentId, response: responseText })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Response submitted successfully.');
+                    fetchComments(); // Refresh comments
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error submitting response:', error);
+            }
         }
 
-        // Load comments on page load
-        fetchComments();
+        window.onload = fetchComments;
     </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Admin - Comments</h1>
+        <div id="comments"></div>
+    </div>
 </body>
 </html>
