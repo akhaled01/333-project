@@ -5,7 +5,7 @@ require_once __DIR__ . '/../db_connection.php';
 $pdo = db_connect();
 $error = $success = null;
 
-//here
+
 try {
     $stmt = $pdo->prepare("
         SELECT 
@@ -28,7 +28,7 @@ try {
 } catch (Exception $e) {
     $error = "Failed to fetch comments: " . $e->getMessage();
 }
-//here
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comment_id = $_POST['comment_id'] ?? null;
     $response = trim($_POST['admin_response'] ?? '');
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-//here
+
 $user_id = $_SESSION['user_id']; 
 
 $stmt = $pdo->prepare("SELECT * FROM Notifications WHERE user_id = ? AND is_read = FALSE ORDER BY created_at DESC");
