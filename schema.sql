@@ -69,6 +69,17 @@ CREATE TABLE `Comments` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Table structure for table `Notifications`
+--
+
+CREATE TABLE `Notifications` (
+  `notification_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
 
 --
@@ -121,6 +132,12 @@ INSERT INTO `Users` (`user_id`, `username`, `email`, `password_hash`, `added_at`
 (1, 'Ali', 'Ali@gmail.com', 'd106b29303767527fc11214f1b325fb6', '2024-10-25 09:49:33', '2024-10-25 09:49:33'),
 (2, 'Noor', 'Noor@gmail.com', 'd106b29303767527fc11214f1b325fb6', '2024-10-25 09:49:33', '2024-10-25 09:49:33'),
 (3, 'malak', 'malak@gmail.com', 'd106b29303767527fc11214f1b325fb6', '2024-10-25 09:49:33', '2024-10-25 09:49:33');
+--
+-- Dumping data for table `Notifications`
+--
+
+INSERT INTO `Notifications` (`notification_id`, `user_id`, `message`, `is_read`, `created_at`) VALUES
+(1, 1, 'New comment added on Room ID 4 by User ID 1.', 1, '2024-12-08 16:19:20');
 
 --
 -- Indexes for dumped tables
@@ -150,7 +167,12 @@ ALTER TABLE `Comments`
   ADD PRIMARY KEY (`comment_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `room_id` (`room_id`);
-
+--
+-- Indexes for table `Notifications`
+--
+ALTER TABLE `Notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `user_id` (`user_id`);
 --
 -- Indexes for table `Rooms`
 --
@@ -193,7 +215,11 @@ ALTER TABLE `Bookings`
 --
 ALTER TABLE `Comments`
   MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
-
+--
+-- AUTO_INCREMENT for table `Notifications`
+--
+ALTER TABLE `Notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `Rooms`
 --
@@ -230,7 +256,12 @@ ALTER TABLE `Bookings`
 ALTER TABLE `Comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`);
-
+--
+-- Constraints for table `Notifications`
+--
+ALTER TABLE `Notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`);
+COMMIT;
 --
 -- Constraints for table `RoomUsageStats`
 --
