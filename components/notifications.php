@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../db_connection.php';
 
+
 function getUnreadNotificationsCount($userId) {
     $conn = db_connect();
     $stmt = $conn->prepare("
@@ -25,6 +26,7 @@ function getNotifications($userId) {
     ");
     $stmt->execute([$userId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // ...
 }
 
 // Mark notifications as read

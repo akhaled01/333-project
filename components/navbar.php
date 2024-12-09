@@ -4,6 +4,7 @@ require_once __DIR__ . '/../db_connection.php';
 
 // Fetch fresh avatar URL if user is logged in
 if (isset($_SESSION['user_id']) && !isset($_SESSION['avatar_url'])) {
+    
     try {
         $conn = db_connect();
         $stmt = $conn->prepare("SELECT avatar_url FROM Users WHERE user_id = ?");
