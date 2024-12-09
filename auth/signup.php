@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     previewImage(input);
                     
                     // Upload to Supabase
-                    const publicUrl = await uploadProfilePicture(input.files[0]);
+                    const publicv = await uploadProfilePicture(input.files[0]);
                     
                     // Set the URL in the hidden input
                     document.getElementById('avatar_url').value = publicUrl;
@@ -115,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <!-- Right Column - Sign Up Form -->
                     <div class="p-8">
+                        
                         <div class="sm:mx-auto sm:w-full sm:max-w-md">
                             <h2 class="text-2xl font-bold tracking-tight text-white mb-6">Create your account</h2>
                         </div>
