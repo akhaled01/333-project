@@ -14,11 +14,12 @@ This project is a comprehensive room management system designed to streamline th
 - Reporting and analytics
 
 ## Setup
-
+```bash
 1. Clone the repository
 2. Configure the database (.env config in dev)
 3. Set up environment variables
 4. Run the application
+```
 
 ## Usage
 
