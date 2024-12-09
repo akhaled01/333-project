@@ -10,7 +10,7 @@ export const InvokeDeleteRoom = async (id) => {
   }
 
   try {
-    const response = await fetch("/admin/api/delete-room", {
+    const response = await fetch("./api/delete-room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export const InvokeCreateRoom = async (name, capacity, equipment, image_url = nu
     console.log("invoking create-room");
 
     try {
-      const response = await fetch("/admin/api/create-room", {
+      const response = await fetch("./api/create-room", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const InvokeCreateRoom = async (name, capacity, equipment, image_url = nu
  */
 export const fetchRooms = async () => {
   try {
-    const res = await fetch("/admin/api/info");
+    const res = await fetch("./api/info");
     const rooms = await res.json();
     
     // @ts-ignore
@@ -105,7 +105,7 @@ export const InvokeEditRoom = async (room) => {
   }
 
   try {
-    const response = await fetch("/admin/api/edit-room/index.php", {
+    const response = await fetch("./api/edit-room/index.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

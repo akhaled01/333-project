@@ -14,6 +14,12 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['avatar_url'])) {
         error_log("Error fetching avatar URL: " . $e->getMessage());
     }
 }
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ./auth/login.php');
+    exit;
+}
+
 ?>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">

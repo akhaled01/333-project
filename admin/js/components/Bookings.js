@@ -15,7 +15,7 @@ export class Bookings extends HTMLElement {
 
   async fetchBookings() {
     try {
-      const response = await fetch("/admin/api/bookings");
+      const response = await fetch("./api/bookings");
       const data = await response.json();
       console.log(data);
       if (data.success) {
@@ -33,7 +33,7 @@ export class Bookings extends HTMLElement {
    */
   async updateBookingStatus(bookingId, status) {
     try {
-      const response = await fetch("/admin/api/bookings/update-status", {
+      const response = await fetch("./api/bookings/update-status", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

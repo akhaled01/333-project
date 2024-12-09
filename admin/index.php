@@ -10,9 +10,9 @@ require_once 'auth_middleware.php';
     <title>Admin Panel</title>
     <link rel="stylesheet" href="../output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="/admin/js/index.js" type="module" defer></script>
-    <script src="/admin/js/comments.js" defer></script>
-    <script src="/admin/js/imageUpload.js" defer></script>
+    <script src="./js/index.js" type="module" defer></script>
+    <script src="./js/comments.js" defer></script>
+    <script src="./js/imageUpload.js" defer></script>
 </head>
 
 <body class="bg-zinc-900 antialiased text-zinc-100">

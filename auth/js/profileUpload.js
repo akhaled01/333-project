@@ -13,7 +13,7 @@ export function previewImage(input) {
 
 export async function getSupabaseCredentials() {
     try {
-        const response = await fetch("/admin/api/load-env/index.php");
+        const response = await fetch("./api/load-env/index.php");
         if (!response.ok) {
             throw new Error("Failed to load environment variables.");
         }

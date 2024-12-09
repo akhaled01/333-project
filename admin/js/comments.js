@@ -1,7 +1,7 @@
 // Function to load all comments
 async function loadComments() {
     try {
-        const response = await fetch('/admin/api/comments.php');
+        const response = await fetch('./api/comments.php');
         const comments = await response.json();
         displayComments(comments);
     } catch (error) {
@@ -61,7 +61,7 @@ function createCommentElement(comment) {
 // Function to handle reply submission
 async function submitReply(commentId, replyText) {
     try {
-        const response = await fetch('/admin/api/reply.php', {
+        const response = await fetch('./api/reply.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

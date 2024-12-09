@@ -7,10 +7,10 @@ import { addRoom } from "./forms/addRoom.js";
 async function fetchStats() {
   try {
     const [totalRooms, pendingBookings, totalUsers, todayBookings] = await Promise.all([
-      fetch('/admin/api/stats/rooms/total').then(r => r.json()),
-      fetch('/admin/api/stats/bookings/pending').then(r => r.json()),
-      fetch('/admin/api/stats/users/total').then(r => r.json()),
-      fetch('/admin/api/stats/bookings/today').then(r => r.json())
+      fetch('./api/stats/rooms/total').then(r => r.json()),
+      fetch('./api/stats/bookings/pending').then(r => r.json()),
+      fetch('./api/stats/users/total').then(r => r.json()),
+      fetch('./api/stats/bookings/today').then(r => r.json())
     ]);
 
     return {

@@ -45,4 +45,4 @@ session_start();
     </div>
 </dialog>
 
-<script src="/admin/js/comments.js"></script>
+<script src="./js/comments.js"></script>

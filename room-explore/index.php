@@ -159,7 +159,7 @@ unset($room);
                                 <i class="fas fa-comments"></i>
                                 <span>Feedback (<?php echo $room['comment_count']; ?>)</span>
                             </button>
-                            <a href="/booking/index.php" 
+                            <a href="../booking/index.php" 
                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
                                 Book Now
                             </a>

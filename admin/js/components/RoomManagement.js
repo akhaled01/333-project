@@ -187,7 +187,7 @@ export default class RoomManagement extends HTMLElement {
           <i class="fas fa-plus-circle mr-2 h-4 w-4"></i>
           Add Room
         </button>
-         <a href="/admin/bookings.php" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-colors duration-200">
+         <a href=" ./bookings.php" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-colors duration-200">
                         <i class="fas fa-calendar-alt mr-2 h-4 w-4"></i>
                         Manage Bookings
          </a>

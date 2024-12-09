@@ -10,7 +10,7 @@ require_once 'auth_middleware.php';
     <title>Bookings Management - Admin Panel</title>
     <link rel="stylesheet" href="../output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="/admin/js/components/Bookings.js" type="module" defer></script>
+    <script src="./js/components/Bookings.js" type="module" defer></script>
 </head>
 
 <body class="bg-zinc-900 antialiased text-zinc-100">
