@@ -30,7 +30,6 @@ DROP TABLE IF EXISTS `Comments`;
 DROP TABLE IF EXISTS `Rooms`;
 DROP TABLE IF EXISTS `RoomUsageStats`;
 DROP TABLE IF EXISTS `Users`;
-DROP TABLE IF EXISTS `Notifications`;
 
 -- --------------------------------------------------------
 -- Table structure for table `Users`
@@ -41,7 +40,6 @@ CREATE TABLE `Users` (
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
-  `avatar_url` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -82,16 +80,10 @@ CREATE TABLE `Comments` (
   `user_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `comment` text NOT NULL,
-  `admin_id` int(11) DEFAULT NULL,
-  `admin_response` TEXT DEFAULT NULL, 
-  `is_resolved` BOOLEAN DEFAULT FALSE,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`comment_id`),
   KEY `user_id` (`user_id`),
-  KEY `room_id` (`room_id`),
-  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`),
-  CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`admin_id`) REFERENCES `Users` (`user_id`)
+  KEY `room_id` (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -106,40 +98,6 @@ CREATE TABLE `RoomUsageStats` (
   PRIMARY KEY (`stat_id`),
   KEY `room_id` (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
--- Table structure for table `Notifications`
--- --------------------------------------------------------
-DROP TABLE IF EXISTS `Notifications`;
-CREATE TABLE `Notifications` (
-  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `comment_id` int(11) NOT NULL,
-  `room_id` int(11) NOT NULL,
-  `is_read` BOOLEAN DEFAULT FALSE,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`notification_id`),
-  KEY `user_id` (`user_id`),
-  KEY `comment_id` (`comment_id`),
-  KEY `room_id` (`room_id`),
-  CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `Comments` (`comment_id`),
-  CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `Rooms` (`room_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
--- Sample Data for Notifications
--- --------------------------------------------------------
-INSERT INTO `Notifications` (`user_id`, `comment_id`, `room_id`, `is_read`, `created_at`) 
-SELECT 
-    c.user_id,
-    c.comment_id,
-    c.room_id,
-    FALSE,
-    CURRENT_TIMESTAMP
-FROM Comments c
-WHERE c.admin_response IS NOT NULL
-LIMIT 5;
 
 -- --------------------------------------------------------
 -- Foreign Key Constraints
