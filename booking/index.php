@@ -121,6 +121,7 @@ if (!isset($_SESSION['user_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,7 +129,9 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../output.css">
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
+
 <body class="bg-zinc-900 text-zinc-100">
     <!-- Navigation -->
     <?php include '../components/navbar.php'; ?>
@@ -180,7 +183,7 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <div>
                                 <button id="book-btn"
-                                class="bg-zinc-700 text-white py-3 px-6 rounded-md hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    class="bg-zinc-700 text-white py-3 px-6 rounded-md hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     Book
                                 </button>
                             </div>
@@ -217,4 +220,5 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 </body>
 <script src="./booking.js"></script>
+
 </html>

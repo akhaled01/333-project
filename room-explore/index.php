@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 VALUES (?, ?, ?, NOW())
             ");
             $stmt->execute([$_SESSION['user_id'], $roomId, $comment]);
-            
+
             // Return the new comment data
             echo json_encode([
                 'success' => true,
@@ -76,10 +76,10 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($rooms as &$room) {
     $commentsData = json_decode($room['comments_data'], true);
     $room['comment_count'] = 0;
-    
+
     if (is_array($commentsData) && $commentsData[0]['comment_id'] !== null) {
         $room['comment_count'] = count($commentsData);
-        usort($commentsData, function($a, $b) {
+        usort($commentsData, function ($a, $b) {
             return strtotime($b['created_at']) - strtotime($a['created_at']);
         });
         $room['comments_data'] = $commentsData;
@@ -92,6 +92,7 @@ unset($room);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,26 +100,28 @@ unset($room);
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
+
 <body class="bg-zinc-900 text-white">
     <?php include '../components/navbar.php'; ?>
 
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Available Rooms</h1>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php foreach ($rooms as $room): ?>
                 <div class="bg-zinc-800 rounded-lg shadow-lg overflow-hidden">
                     <?php if (!empty($room['image_url'])): ?>
-                        <img src="<?php echo htmlspecialchars($room['image_url']); ?>" 
-                             alt="<?php echo htmlspecialchars($room['room_name']); ?>" 
-                             class="w-full h-48 object-cover">
+                        <img src="<?php echo htmlspecialchars($room['image_url']); ?>"
+                            alt="<?php echo htmlspecialchars($room['room_name']); ?>"
+                            class="w-full h-48 object-cover">
                     <?php else: ?>
                         <div class="w-full h-48 bg-zinc-700 flex items-center justify-center">
                             <i class="fas fa-door-open text-4xl text-zinc-500"></i>
                         </div>
                     <?php endif; ?>
-                    
+
                     <div class="p-6">
                         <h2 class="text-xl font-semibold mb-2">
                             <?php echo htmlspecialchars($room['room_name']); ?>
@@ -128,21 +131,21 @@ unset($room);
                                 <?php echo htmlspecialchars($room['description']); ?>
                             </p>
                         <?php endif; ?>
-                        
+
                         <!-- Room Details -->
                         <div class="space-y-3 mb-4">
                             <div class="flex items-center text-zinc-300">
                                 <i class="fas fa-users w-5 text-indigo-400"></i>
                                 <span class="ml-2">Capacity: <?php echo htmlspecialchars($room['capacity']); ?> people</span>
                             </div>
-                            
+
                             <?php if (isset($room['equipment']) && !empty($room['equipment'])): ?>
                                 <div class="flex items-start text-zinc-300">
                                     <i class="fas fa-tools w-5 text-indigo-400 mt-1"></i>
                                     <div class="ml-2">
                                         <span class="block mb-1">Equipment:</span>
                                         <ul class="list-disc list-inside text-sm text-zinc-400 space-y-1 ml-2">
-                                            <?php 
+                                            <?php
                                             $equipment = explode(',', $room['equipment']);
                                             foreach ($equipment as $item): ?>
                                                 <li><?php echo htmlspecialchars(trim($item)); ?></li>
@@ -155,12 +158,12 @@ unset($room);
 
                         <div class="flex justify-between items-center">
                             <button onclick="openFeedbackDialog(<?php echo $room['room_id']; ?>)"
-                                    class="text-indigo-400 hover:text-indigo-300 flex items-center gap-2">
+                                class="text-indigo-400 hover:text-indigo-300 flex items-center gap-2">
                                 <i class="fas fa-comments"></i>
                                 <span>Feedback (<?php echo $room['comment_count']; ?>)</span>
                             </button>
-                            <a href="/booking/index.php" 
-                               class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
+                            <a href="/booking/index.php"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
                                 Book Now
                             </a>
                         </div>
@@ -171,8 +174,8 @@ unset($room);
     </div>
 
     <!-- Feedback Dialog -->
-    <dialog id="feedback-dialog" 
-            class="bg-zinc-800 text-white rounded-lg shadow-xl p-0 w-full max-w-2xl mx-auto backdrop:bg-zinc-900/90">
+    <dialog id="feedback-dialog"
+        class="bg-zinc-800 text-white rounded-lg shadow-xl p-0 w-full max-w-2xl mx-auto backdrop:bg-zinc-900/90">
         <div class="p-6">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold" id="dialog-room-name"></h3>
@@ -181,19 +184,18 @@ unset($room);
                 </button>
             </div>
             <div id="feedback-content" class="space-y-4 max-h-[60vh] overflow-y-auto"></div>
-            
+
             <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="mt-6 pt-4 border-t border-zinc-700">
                     <form id="comment-form" class="space-y-3">
-                        <textarea 
+                        <textarea
                             id="comment-input"
                             class="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             rows="3"
                             placeholder="Share your feedback..."
-                            required
-                        ></textarea>
+                            required></textarea>
                         <div class="flex justify-end">
-                            <button type="submit" 
+                            <button type="submit"
                                 class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                                 Submit Feedback
                             </button>
@@ -259,7 +261,7 @@ unset($room);
                     ` : ''}
                 </div>
             `;
-            
+
             if (feedbackContent.innerHTML === '<p class="text-zinc-400">No feedback yet.</p>') {
                 feedbackContent.innerHTML = '';
             }
@@ -278,10 +280,10 @@ unset($room);
         if (commentForm) {
             commentForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
+
                 const commentInput = document.getElementById('comment-input');
                 const comment = commentInput.value.trim();
-                
+
                 if (!comment) return;
 
                 try {
@@ -294,19 +296,19 @@ unset($room);
                     });
 
                     const data = await response.json();
-                    
+
                     if (data.success) {
                         // Add the new comment to the dialog
                         addCommentToDialog(comment, data.date);
-                        
+
                         // Update the comment count in the room card
                         const commentCountEl = document.querySelector(`button[onclick="openFeedbackDialog(${currentRoomId})"] span`);
                         const currentCount = parseInt(commentCountEl.textContent.match(/\d+/)[0]);
                         commentCountEl.textContent = `Feedback (${currentCount + 1})`;
-                        
+
                         // Clear the form
                         commentForm.reset();
-                        
+
                         // If this was the first comment, remove the "No feedback yet" message
                         if (feedbackContent.innerHTML === '<p class="text-zinc-400">No feedback yet.</p>') {
                             feedbackContent.innerHTML = '';
@@ -329,4 +331,5 @@ unset($room);
         });
     </script>
 </body>
+
 </html>

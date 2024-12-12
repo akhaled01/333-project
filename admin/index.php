@@ -13,6 +13,7 @@ require_once 'auth_middleware.php';
     <script src="/admin/js/index.js" type="module" defer></script>
     <script src="/admin/js/comments.js" defer></script>
     <script src="/admin/js/imageUpload.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="bg-zinc-900 antialiased text-zinc-100">
@@ -23,7 +24,7 @@ require_once 'auth_middleware.php';
                 <h1 class="text-2xl sm:text-3xl font-bold text-zinc-100 mb-8">Dashboard</h1>
                 <div id="stats-container" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8"></div>
                 <div id="room-management" class="rounded-lg bg-zinc-800 p-6 shadow-sm border border-zinc-700"></div>
-                
+
                 <!-- Comment Management Section -->
                 <div class="mt-8">
                     <h2 class="text-xl font-semibold text-zinc-100 mb-4">Comment Management</h2>

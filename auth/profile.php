@@ -13,7 +13,7 @@ $error = '';
 
 try {
     $conn = db_connect();
-    
+
     // Fetch user data including avatar_url
     $stmt = $conn->prepare("SELECT name, email, avatar_url FROM Users WHERE user_id = ?");
     $stmt->execute([$_SESSION['user_id']]);
@@ -22,7 +22,7 @@ try {
         $_SESSION['user_name'] = $user_data['name'];
         $_SESSION['avatar_url'] = $user_data['avatar_url'];
     }
-    
+
     // Handle form submission for profile update
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'] ?? '';
@@ -61,40 +61,45 @@ try {
                     $stmt = $conn->prepare("UPDATE Users SET name = ?, email = ?, avatar_url = ? WHERE user_id = ?");
                     $stmt->execute([$name, $email, $avatar_url, $_SESSION['user_id']]);
                 }
-                
+
                 $_SESSION['user_name'] = $name;
                 $_SESSION['avatar_url'] = $avatar_url;
                 $success_message = "Profile updated successfully!";
             }
         }
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     $error = "Database error: " . $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Study Room Booking</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script type="module">
-        import { previewImage, uploadProfilePicture } from './js/profileUpload.js';
+        import {
+            previewImage,
+            uploadProfilePicture
+        } from './js/profileUpload.js';
 
         window.handleImageUpload = async function(input) {
             if (input.files && input.files[0]) {
                 try {
                     // Preview the image
                     previewImage(input);
-                    
+
                     // Upload to Supabase
                     const publicUrl = await uploadProfilePicture(input.files[0]);
-                    
+
                     // Set the URL in the hidden input
                     document.getElementById('avatar_url').value = publicUrl;
-                    
+
                     // Show success message
                     const uploadStatus = document.getElementById('upload-status');
                     uploadStatus.textContent = 'Image uploaded successfully!';
@@ -109,9 +114,10 @@ try {
         };
     </script>
 </head>
+
 <body class="bg-zinc-900 text-zinc-100">
     <!-- Navigation -->
-   <?php include '../components/navbar.php'; ?>
+    <?php include '../components/navbar.php'; ?>
 
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
@@ -145,24 +151,24 @@ try {
                 <div class="px-8 py-6 border-b border-zinc-700">
                     <h2 class="text-2xl font-bold text-zinc-100">Profile Settings</h2>
                 </div>
-                
+
                 <form method="POST" class="px-8 py-6 space-y-6">
                     <input type="hidden" id="avatar_url" name="avatar_url" value="<?php echo htmlspecialchars($user_data['avatar_url'] ?? ''); ?>">
-                    
+
                     <div class="space-y-4">
                         <div>
                             <label for="avatar" class="block text-sm font-medium text-zinc-300">Profile Picture</label>
                             <div class="mt-1 flex items-center">
                                 <div class="relative">
-                                    <img id="preview" 
-                                         src="<?php echo !empty($user_data['avatar_url']) ? htmlspecialchars($user_data['avatar_url']) : '/uploads/avatars/default.png'; ?>" 
-                                         alt="Profile preview" 
-                                         class="h-24 w-24 rounded-full object-cover border-2 border-zinc-600">
-                                    <input type="file" 
-                                           id="avatar" 
-                                           accept="image/*" 
-                                           class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                           onchange="handleImageUpload(this)">
+                                    <img id="preview"
+                                        src="<?php echo !empty($user_data['avatar_url']) ? htmlspecialchars($user_data['avatar_url']) : '/uploads/avatars/default.png'; ?>"
+                                        alt="Profile preview"
+                                        class="h-24 w-24 rounded-full object-cover border-2 border-zinc-600">
+                                    <input type="file"
+                                        id="avatar"
+                                        accept="image/*"
+                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        onchange="handleImageUpload(this)">
                                 </div>
                                 <span class="ml-4 text-sm text-zinc-400">Click to change profile picture</span>
                             </div>
@@ -185,7 +191,7 @@ try {
 
                         <div class="pt-4 border-t border-zinc-700">
                             <h3 class="text-lg font-medium text-zinc-100 mb-4">Change Password</h3>
-                            
+
                             <div class="space-y-4">
                                 <div>
                                     <label for="current_password" class="block text-sm font-medium text-zinc-300">Current Password</label>
@@ -219,4 +225,5 @@ try {
         </div>
     </div>
 </body>
+
 </html>

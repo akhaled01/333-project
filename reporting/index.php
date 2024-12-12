@@ -18,6 +18,7 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +27,10 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> <!-- Boxicons -->	
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> <!-- Boxicons -->
 </head>
+
 <body class="bg-zinc-900 text-zinc-100">
     <!-- Navigation -->
     <?php include '../components/navbar.php'; ?>
@@ -79,19 +82,17 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
                                     <p class="text-lg">No Upcoming bookings found!</p>
                                 </div>';
                             } else {
-                               foreach($upcomingBookings as $row => $booking){
+                                foreach ($upcomingBookings as $row => $booking) {
                                     echo '<div class="flex justify-between items-center mb-4">';
                                     echo '<div>';
                                     echo '<h3 class="text-lg font-semibold">' . $booking['room_name'] . '</h3>';
                                     echo '<p class="text-sm text-zinc-400">
                                             <i class="bx bx-calendar"></i>' . " " . $booking['date'] . "\t" .
-                                            '<i class="bx bx-time"></i>' . " " . $booking['time'] . 
+                                        '<i class="bx bx-time"></i>' . " " . $booking['time'] .
                                         '</p>';
-                                    echo '<h4>Status: <span class="px-2 py-1 rounded-full text-sm ' . 
-                                        ($booking['status'] === 'pending' ? 'text-yellow-400' :
-                                        ($booking['status'] === 'confirmed' ? 'text-green-400' :
-                                        ($booking['status'] === 'cancelled' ? 'text-red-400' : ''))) . 
-                                    '">' . $booking['status'] . '</span></h4>';
+                                    echo '<h4>Status: <span class="px-2 py-1 rounded-full text-sm ' .
+                                        ($booking['status'] === 'pending' ? 'text-yellow-400' : ($booking['status'] === 'confirmed' ? 'text-green-400' : ($booking['status'] === 'cancelled' ? 'text-red-400' : ''))) .
+                                        '">' . $booking['status'] . '</span></h4>';
                                     echo '</div>';
                                     echo '</div>';
                                 }
@@ -100,7 +101,7 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
                         </div>
                     </div>
                 </div>
-                <div class = "w-full md:w-1/2">
+                <div class="w-full md:w-1/2">
                     <h2 class="text-xl font-semibold text-zinc-100 p-2 py-5">Past Bookings</h2>
                     <div class="bg-zinc-800 shadow-lg rounded-lg overflow-hidden border border-zinc-700">
                         <div class="p-6">
@@ -111,19 +112,17 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
                                     <p class="text-lg">No past bookings found!</p>
                                 </div>';
                             } else {
-                                foreach($pastBookings as $row => $booking){
+                                foreach ($pastBookings as $row => $booking) {
                                     echo '<div class="flex justify-between items-center mb-4">';
                                     echo '<div>';
                                     echo '<h3 class="text-lg font-semibold">' . $booking['room_name'] . '</h3>';
                                     echo '<p class="text-sm text-zinc-400">
                                             <i class="bx bx-calendar"></i>' . " " . $booking['date'] . "\t" .
-                                            '<i class="bx bx-time"></i>' . " " . $booking['time'] . 
+                                        '<i class="bx bx-time"></i>' . " " . $booking['time'] .
                                         '</p>';
-                                    echo '<h4>Status: <span class="px-2 py-1 rounded-full text-sm ' . 
-                                        ($booking['status'] === 'pending' ? 'text-yellow-400' :
-                                        ($booking['status'] === 'confirmed' ? 'text-green-400' :
-                                        ($booking['status'] === 'cancelled' ? 'text-red-400' : ''))) . 
-                                    '">' . $booking['status'] . '</span></h4>';
+                                    echo '<h4>Status: <span class="px-2 py-1 rounded-full text-sm ' .
+                                        ($booking['status'] === 'pending' ? 'text-yellow-400' : ($booking['status'] === 'confirmed' ? 'text-green-400' : ($booking['status'] === 'cancelled' ? 'text-red-400' : ''))) .
+                                        '">' . $booking['status'] . '</span></h4>';
                                     echo '</div>';
                                     echo '</div>';
                                 }
@@ -136,4 +135,5 @@ $upcomingBookings = getPastUpcomingBookings("upcoming");
         </div>
     </div>
 </body>
+
 </html>
